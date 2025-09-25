@@ -34,17 +34,19 @@ This project is a static-first web application for a fictional creative agency, 
     *   `src/content/team/`: Contains markdown files for team members.
     *   `src/content/services/`: Contains markdown files for services.
 *   **Deployment:**
-    *   A GitHub Action is configured in `.github/workflows/deploy.yml` to automatically build and deploy the application to GitHub Pages on every push to the `main` branch.
+    *   A GitHub Action is configured in `.github/workflows/deploy.yml` to automatically build the application and push the output to the `gh-pages` branch on every push to the `main` branch.
 
 ## Current Plan
 
-### GitHub Actions for Deployment
+### GitHub Pages Deployment via `gh-pages` Branch
 
-*   **Goal:** To automate the build and deployment process of the Astro.js application to GitHub Pages.
+*   **Goal:** To automate the build and deployment process of the Astro.js application to GitHub Pages by pushing the built assets to a `gh-pages` branch.
 *   **Implementation:**
-    *   Created a new GitHub Action workflow file at `.github/workflows/deploy.yml`.
-    *   The workflow is triggered on every `push` to the `main` branch.
-    *   It consists of two jobs:
-        1.  `build`: This job checks out the repository, installs Node.js, and builds the Astro application using the `withastro/action`.
-        2.  `deploy`: This job depends on the successful completion of the `build` job and deploys the built site to GitHub Pages using the `actions/deploy-pages` action.
-*   **Required Configuration:** The user must configure the GitHub repository settings to use GitHub Actions for deployment under the "Pages" section.
+    *   **Astro Configuration:** Updated `astro.config.mjs` to include the `site` and `base` properties. This is necessary for Astro to generate correct asset paths for a project hosted in a subdirectory (e.g., `https://username.github.io/repo-name/`).
+    *   **GitHub Action Workflow:** Modified the `.github/workflows/deploy.yml` file.
+        *   The workflow is triggered on a `push` to the `main` branch.
+        *   It uses the `withastro/action@v2` to check out the repository and build the project.
+        *   It then uses the `peaceiris/actions-gh-pages@v3` action to take the built site from the `./dist` directory and push it to the `gh-pages` branch.
+*   **Required Configuration:** The user must configure their GitHub repository's **Settings > Pages** to:
+    *   Set the **Source** to **Deploy from a branch**.
+    *   Set the **Branch** to `gh-pages` with the folder as `/ (root)`.
