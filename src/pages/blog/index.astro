@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Card from '../../components/Card.astro';
+
+const posts = await getCollection('blog');
+---
+
+<Layout title="Blog">
+  <section>
+    <h2>Latest Posts</h2>
+    <div class="posts-grid">
+      {posts.map(post => (
+        <Card 
+          title={post.data.title} 
+          body={post.data.description} 
+          href={`/blog/${post.slug}`} 
+        />
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .posts-grid {
+    display: grid;
+    gap: 1rem;
+  }
+</style>

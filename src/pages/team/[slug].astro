@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const teamEntries = await getCollection('team');
+  return teamEntries.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<Layout title={entry.data.name}>
+  <section>
+    {entry.data.image && <img src={entry.data.image} alt={entry.data.name} width="200" />}
+    <h1>{entry.data.name}</h1>
+    <h2>{entry.data.role}</h2>
+    <Content />
+  </section>
+</Layout>
