@@ -1,11 +1,16 @@
+---
+const { pathname } = Astro.url;
+// Handle trailing slashes for robust path matching
+const normalizedPathname = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+---
 <header>
   <nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/services">Services</a>
-    <a href="/portfolio">Portfolio</a>
-    <a href="/blog">Blog</a>
-    <a href="/contact">Contact</a>
+    <a href="/" class={normalizedPathname === '/' ? 'is-active' : ''}>Home</a>
+    <a href="/about" class={normalizedPathname === '/about' ? 'is-active' : ''}>About</a>
+    <a href="/services" class={normalizedPathname.startsWith('/services') ? 'is-active' : ''}>Services</a>
+    <a href="/portfolio" class={normalizedPathname === '/portfolio' ? 'is-active' : ''}>Portfolio</a>
+    <a href="/blog" class={normalizedPathname.startsWith('/blog') ? 'is-active' : ''}>Blog</a>
+    <a href="/contact" class={normalizedPathname === '/contact' ? 'is-active' : ''}>Contact</a>
   </nav>
 </header>
 
@@ -23,5 +28,19 @@
   a {
     text-decoration: none;
     color: #333;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  a:hover {
+    background-color: #eee;
+  }
+  .is-active {
+    background-color: #6c63ff;
+    color: white;
+    font-weight: bold;
+  }
+  .is-active:hover {
+    background-color: #574fd8;
   }
 </style>
