@@ -33,17 +33,18 @@ This project is a static-first web application for a fictional creative agency, 
     *   `src/content/blog/`: Contains markdown files for blog posts.
     *   `src/content/team/`: Contains markdown files for team members.
     *   `src/content/services/`: Contains markdown files for services.
+*   **Deployment:**
+    *   A GitHub Action is configured in `.github/workflows/deploy.yml` to automatically build and deploy the application to GitHub Pages on every push to the `main` branch.
 
 ## Current Plan
 
-### TypeScript Error Resolution
+### GitHub Actions for Deployment
 
-*   **Problem:** The project was encountering TypeScript errors (`Parameter '...' implicitly has an 'any' type.ts(7006)`) in several files. This was happening because the type of the variables in the `.map()` functions and `getStaticPaths` functions were not being automatically inferred.
-*   **Solution:** I have resolved these errors by explicitly importing the `CollectionEntry` type from `astro:content` and applying it to the following variables:
-    *   `service` in `src/pages/services/index.astro`
-    *   `post` in `src/pages/blog/index.astro`
-    *   `member` in `src/pages/about.astro`
-    *   `entry` in `src/pages/services/[slug].astro`
-    *   `entry` in `src/pages/team/[slug].astro`
-    *   `entry` in `src/pages/blog/[slug].astro`
-*   **Outcome:** All TypeScript errors have been resolved, and the application is now in a runnable and correct state.
+*   **Goal:** To automate the build and deployment process of the Astro.js application to GitHub Pages.
+*   **Implementation:**
+    *   Created a new GitHub Action workflow file at `.github/workflows/deploy.yml`.
+    *   The workflow is triggered on every `push` to the `main` branch.
+    *   It consists of two jobs:
+        1.  `build`: This job checks out the repository, installs Node.js, and builds the Astro application using the `withastro/action`.
+        2.  `deploy`: This job depends on the successful completion of the `build` job and deploys the built site to GitHub Pages using the `actions/deploy-pages` action.
+*   **Required Configuration:** The user must configure the GitHub repository settings to use GitHub Actions for deployment under the "Pages" section.
