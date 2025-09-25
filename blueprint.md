@@ -36,4 +36,14 @@ This project is a static-first web application for a fictional creative agency, 
 
 ## Current Plan
 
-This marks the completion of the initial setup and content creation for the agency website. The basic pages, content collections, and components are now in place.
+### TypeScript Error Resolution
+
+*   **Problem:** The project was encountering TypeScript errors (`Parameter '...' implicitly has an 'any' type.ts(7006)`) in several files. This was happening because the type of the variables in the `.map()` functions and `getStaticPaths` functions were not being automatically inferred.
+*   **Solution:** I have resolved these errors by explicitly importing the `CollectionEntry` type from `astro:content` and applying it to the following variables:
+    *   `service` in `src/pages/services/index.astro`
+    *   `post` in `src/pages/blog/index.astro`
+    *   `member` in `src/pages/about.astro`
+    *   `entry` in `src/pages/services/[slug].astro`
+    *   `entry` in `src/pages/team/[slug].astro`
+    *   `entry` in `src/pages/blog/[slug].astro`
+*   **Outcome:** All TypeScript errors have been resolved, and the application is now in a runnable and correct state.

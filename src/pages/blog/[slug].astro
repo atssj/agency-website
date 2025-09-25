@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
+  return blogEntries.map((entry: CollectionEntry<'blog'>) => ({
     params: { slug: entry.slug }, props: { entry },
   }));
 }
@@ -14,9 +14,10 @@ const { Content } = await entry.render();
 ---
 
 <Layout title={entry.data.title}>
-  <article>
+  <section>
     <h1>{entry.data.title}</h1>
     <p><em>By {entry.data.author} on {entry.data.date.toDateString()}</em></p>
+    <hr>
     <Content />
-  </article>
+  </section>
 </Layout>

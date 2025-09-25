@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const teamEntries = await getCollection('team');
-  return teamEntries.map(entry => ({
+  return teamEntries.map((entry: CollectionEntry<'team'>) => ({
     params: { slug: entry.slug }, props: { entry },
   }));
 }
@@ -15,9 +15,10 @@ const { Content } = await entry.render();
 
 <Layout title={entry.data.name}>
   <section>
-    {entry.data.image && <img src={entry.data.image} alt={entry.data.name} width="200" />}
+    <img src={entry.data.image} alt={entry.data.name} width="200" height="200">
     <h1>{entry.data.name}</h1>
     <h2>{entry.data.role}</h2>
+    <hr>
     <Content />
   </section>
 </Layout>

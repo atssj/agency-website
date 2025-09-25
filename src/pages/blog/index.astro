@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/Card.astro';
 
@@ -10,7 +10,7 @@ const posts = await getCollection('blog');
   <section>
     <h2>Latest Posts</h2>
     <div class="posts-grid">
-      {posts.map(post => (
+      {posts.map((post: CollectionEntry<'blog'>) => (
         <Card 
           title={post.data.title} 
           body={post.data.description} 

@@ -1,10 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
   const serviceEntries = await getCollection('services');
-  return serviceEntries.map(entry => ({
+  return serviceEntries.map((entry: CollectionEntry<'services'>) => ({
     params: { slug: entry.slug }, props: { entry },
   }));
 }
